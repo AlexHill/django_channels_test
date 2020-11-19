@@ -1,7 +1,7 @@
-WORKERS=4
+PROCESSES=4
 THREADS=4
 
-env:
+env:make
 	python3 -mvenv env
 	env/bin/pip install --upgrade pip setuptools
 	env/bin/pip install "django<3" channels uvicorn[standard] gunicorn requests
@@ -11,7 +11,7 @@ asgi:
 	DJANGO_SETTINGS_MODULE=uvitest.settings \
 	../env/bin/gunicorn uvitest.asgi:application \
 	--worker-class uvicorn.workers.UvicornWorker \
-	--workers $(WORKERS) \
+	--workers $(PROCESSES) \
 	--access-logfile - \
 
 asgi-threads:
@@ -21,7 +21,7 @@ asgi-threads:
 	../env/bin/gunicorn uvitest.asgi:application \
 	--access-logfile - \
 	--worker-class uvicorn.workers.UvicornWorker \
-	--workers $(WORKERS) \
+	--workers $(PROCESSES) \
 
 
 wsgi:
@@ -29,7 +29,7 @@ wsgi:
 	DJANGO_SETTINGS_MODULE=uvitest.settings \
 	../env/bin/gunicorn uvitest.wsgi:application \
 	--access-logfile - \
-	--workers $(WORKERS) \
+	--workers $(PROCESSES) \
 	--threads $(THREADS) \
 
 wsgi-fair:
@@ -37,6 +37,6 @@ wsgi-fair:
 	DJANGO_SETTINGS_MODULE=uvitest.settings \
 	../env/bin/gunicorn uvitest.wsgi:application \
 	--access-logfile - \
-	--workers $(WORKERS) \
+	--workers $(PROCESSES) \
 	--threads $(THREADS) \
 	--worker-connections $(THREADS) \

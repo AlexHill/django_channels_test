@@ -20,12 +20,21 @@ env/bin/pip install "django<3" channels uvicorn gunicorn requests
 Start the server:
 
 ```
-DJANGO_SETTINGS_MODULE=uvitest.settings ../env/bin/gunicorn uvitest.asgi:application --worker-class uvicorn.workers.UvicornWorker --workers 4 --access-logfile -
+make asgi
 ```
 
-Hit the server with 100 requests and concurrency 20:
+Hit the server with 10 requests and concurrency 10:
 
 ```
-env/bin/python load_test.py 20 100
+env/bin/python load_test.py 10 10
 ```
 
+Observe a bunch of errors in your web server log output.
+
+Now run ten requests with concurrency 1:
+
+```
+env/bin/python load.test 1 10
+```
+
+And see that all is well.
