@@ -1,7 +1,7 @@
 PROCESSES=4
 THREADS=4
 
-env:make
+env:
 	python3 -mvenv env
 	env/bin/pip install --upgrade pip setuptools
 	env/bin/pip install "django<3" channels uvicorn[standard] gunicorn requests
